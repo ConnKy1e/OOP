@@ -1,93 +1,92 @@
 //this sends notification to subscribers of a channel when a new upload releases
 
-public interface Notification 
+public interface Notification //notification interface
 {
-    public void attach(Observer o);
-    public void detach(Observer o);
-    public void notifyUpdate(Notify m);
+    public void attach(Observer o); //attach state
+    public void detach(Observer o); //detach state
+    public void notifyUpdate(Notify m); //notifyupdate state
 }
  
-public class NotificationBump implements Notification  {
+public class NotificationBump implements Notification  { //class for sending notifications
      
-    private List<Observer> observers = new ArrayList<>();
+    private List<Observer> observers = new ArrayList<>(); //create array for observers 
  
-    @Override
-    public void attach(Observer o) {
-        observers.add(o);
+    @Override //overide parent class
+    public void attach(Observer o) { //attaching notification
+        observers.add(o); //adding variable
     }
  
-    @Override
-    public void detach(Observer o) {
-        observers.remove(o);
+    @Override //override parent class
+    public void detach(Observer o) { //detaching notification
+        observers.remove(o); //adding variable
     }
  
-    @Override
-    public void notifyUpdate(Notify m) {
-        for(Observer o: observers) {
-            o.update(m);
+    @Override //override parernt class
+    public void notifyUpdate(Notify m) { //updating notification
+        for(Observer o: observers) { //adding variable
+            o.update(m); //update with notification received
         }
     }
 }
 
-public interface Observer 
+public interface Observer //variable
 {
-    public void update(Notify m);
+    public void update(Notify m); //update observer if any change
 }
 
-public class NotifySubscriberOne implements Observer 
+public class NotifySubscriberOne implements Observer //implementation
 {
-    @Override
-    public void update(Notify m) {
-        System.out.println("UpdateNotificationOne :: " + m.getNotificationContent());
+    @Override //override parent class
+    public void update(Notify m) { //update observer
+        System.out.println("UpdateNotificationOne :: " + m.getNotificationContent()); //output update notification of subscriber one
     }
 }
 
-public class NotifySubscriberTwo implements Observer 
+public class NotifySubscriberTwo implements Observer //implementation
 {
-    @Override
-    public void update(Notify m) {
-        System.out.println("UpdateNotificationTwo :: " + m.getNotificationContent());
+    @Override //override parent class
+    public void update(Notify m) { //update observer
+        System.out.println("UpdateNotificationTwo :: " + m.getNotificationContent()); //output update notification of subscriber two
     }
 }
-public class NotifySubscriberThree implements Observer 
+public class NotifySubscriberThree implements Observer //implementation
 {
-    @Override
-    public void update(Notify m) {
-        System.out.println("UpdateNotificationThree :: " + m.getNotificationContent());
+    @Override //override parent class
+    public void update(Notify m) { //update observer
+        System.out.println("UpdateNotificationThree :: " + m.getNotificationContent()); //output update notification of subscriber three
     }
 }
 
-public class Notification 
+public class Notification //notifiction class
 {
-    final String NotificationContent;
+    final String NotificationContent; //cant be modified
      
-    public Notification (String m) {
-        this.NotificationContent = m;
+    public Notification (String m) { //context of notification
+        this.NotificationContent = m; //refers to current object
     }
  
-    public String getNotificationContent() {
-        return NotificationContent;
+    public String getNotificationContent() { // recieve message within notification
+        return NotificationContent; //output message recieved
     }
 }
 
-public class Main 
+public class Main //test program
 {
-    public static void main(String[] args) 
+    public static void main(String[] args) //allows to be run public
     {
-        NotifySubscriberOne s1 = new NotifySubscriberOne();
-        NotifySubscriberTwo s2 = new NotifySubscriberTwo();
-        NotifySubscriberThree s3 = new NotifySubscriberThree();
+        NotifySubscriberOne s1 = new NotifySubscriberOne(); //variable created for subscriber one
+        NotifySubscriberTwo s2 = new NotifySubscriberTwo(); //variable created for subscriber two
+        NotifySubscriberThree s3 = new NotifySubscriberThree(); //variable created for subscriber three
          
-        NotifyPublisher p = new NotifyPublisher();
+        NotifyPublisher p = new NotifyPublisher(); //variable created for notifier
          
-        p.attach(s1);
-        p.attach(s2);
+        p.attach(s1); //attach subscriber one 
+        p.attach(s2); //attack subscruber two 
+        p.attach(s3); //attach subscruber three to notification
+        
+        p.notifyUpdate(new Notification("First Notification"));   //all subscribers will recieve notification
          
-        p.notifyUpdate(new Notification("First Notification"));   //s1 and s2 will receive the update
-         
-        p.detach(s1);
-        p.attach(s3);
-         
-        p.notifyUpdate(new Notification("Second Notification")); //s2 and s3 will receive the update
+       
+        
     }
 }
